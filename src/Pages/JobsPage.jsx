@@ -1,22 +1,31 @@
 import React, {useEffect, useState} from 'react'
 import { useJobs } from '../hooks/useJobs';
-import {FaBolt} from "react-icons/fa"
+import {FaBolt} from "react-icons/fa";
+import { useDebounce } from '../hooks/useDebounce';
 
 const JobsPage = () => {
     const jobsPerPage = 10;
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
-    const {data: jobs, isLoading, error} = useJobs(search);
+    const debouncedSearch = useDebounce(search, 800);
+    const {data: jobs, isLoading, error} = useJobs(debouncedSearch);
 
-    if (isLoading) return <p className='w-7 h-5 border-2 border-red-800 rounded-full border-t-transparent animate-spin bg-transparent'></p>
+    useEffect(() => {
+        window.scrollTo(0,0);
+    }, [page]);
+
+    if (isLoading) return (
+        <div className='flex items-center justify-center'>
+            <p className='w-20 h-20 border-4 border-green-800 rounded-full border-t-transparent animate-spin bg-transparent text-center my-10'></p>
+        </div>
+    )
     if (error) return <p className='text-red-700 text-md'>error loading jobs</p>
 
     const start = (page - 1) * jobsPerPage;
     const paginateJobs = jobs.slice(start, start + jobsPerPage);
 
-    useEffect(() => {
-        window.scrollTo(0,0);
-    }, [page])
+    
+
     return (
         <div className='bg-white mb-4'>
             <div className='bg-green-800 text-white py-4 px-3 flex justify-between items-center fixed inset-0 z-10 h-15'>
@@ -24,7 +33,7 @@ const JobsPage = () => {
                 <input type='search' value={search} placeholder="search jobs" onChange={(e) => {setSearch(e.target.value); setPage(1);}}  className='border border-white bg-green-200 p-2 rounded-md text-black/60 outline-0'/>
             </div>
 
-            <div className='grid grid-cols-1 gap-5 py-3 px-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 container mx-auto mt-17'>
+            <div className='grid grid-cols-1 gap-7 py-3 px-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 container mx-auto mt-17'>
                 {paginateJobs.map(job => (
                     <div key={job.id} className='flex flex-col gap-4 border-2 border-green-800 rounded-md bg-green-50 px-4 py-3 hover:-translate-y-0.5 duration-75'>
                         <h2 className='font-black text-lg'>{job.title}</h2>
@@ -36,7 +45,7 @@ const JobsPage = () => {
                             </div>
                             <p className='bg-green-200 rounded-lg w-fit px-1.5 text-sm'>{job.salary}</p>
                         </div>
-                        <button className='flex items-center text-sm text-green-700 rounded my-2 gap-0.5 cursor-pointer hover:text-green-800'><FaBolt />Easy Apply</button>
+                        <button className='flex items-center justify-center bg-green-800 rounded my-2 gap-0.5 cursor-pointer hover:bg-green-900 text-white py-2 px-4'>Apply</button>
                     </div>
                 ))}
             </div>
