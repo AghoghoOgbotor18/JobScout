@@ -1,16 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import { useJobs } from '../hooks/useJobs';
-import {FaBolt} from "react-icons/fa";
 import { useDebounce } from '../hooks/useDebounce';
-import Navbar from '../Layout/Navbar';
-import Hero from '../Components/Hero';
-import CTASection from '../Components/CTASection';
-import Popular from '../Components/Popular';
+import sadFace from "../assets/sadface.png"
 
-const JobsPage = () => {
+
+const Jobs = ({search, setSearch, page, setPage}) => {
     const jobsPerPage = 10;
-    const [search, setSearch] = useState("");
-    const [page, setPage] = useState(1);
     const debouncedSearch = useDebounce(search, 800);
     const {data: jobs = [], isLoading, isFetching, error} = useJobs(debouncedSearch);
 
@@ -18,22 +13,15 @@ const JobsPage = () => {
         window.scrollTo(0,0);
     }, [page]);
 
-    if (error) return <p className='text-red-700 text-md'>error loading jobs</p>
 
     const start = (page - 1) * jobsPerPage;
     const paginateJobs = jobs.slice(start, start + jobsPerPage);
 
     return (
-        <div className='container mx-auto'>
+        <div className=''>
             <div className=''>
-                <header>
-                    <Navbar search={search} setPage={setPage} setSearch={setSearch} />
-                </header>
-                <main>
-                    <Hero />
-                    <CTASection search={search} setPage={setPage} setSearch={setSearch} />
-                    <Popular />
-
+                <div>
+                    <h2 className='font-bold text-3xl ml-3 mt-10 mb-2'>Latest Projects</h2>
                     {isLoading && (
                         <div className='flex items-center justify-center'>
                             <p className='w-20 h-20 border-4 border-green-800 rounded-full border-t-transparent animate-spin bg-transparent text-center my-30'></p>
@@ -42,14 +30,18 @@ const JobsPage = () => {
                     {!isLoading && jobs.length === 0 && debouncedSearch && (
                         <div className="flex justify-center items-center mt-40">
                             <h1 className="text-2xl font-bold">
-                            No job listings found for
-                            <span className="text-green-800"> "{debouncedSearch}"</span>
+                                No job listings found for
+                                <span className="text-green-800"> "{debouncedSearch}"</span>
                             </h1>
                         </div>
-                        )}
-
+                    )}
+                    {error && (
+                        <div className='flex flex-col justify-center items-center gap-2'>
+                            <img src={sadFace} alt="sad emoji" className='w-50'/>
+                            <p className='text-3xl font-bold'>Error loading Jobs</p>
+                        </div>
+                    )}
                     <div className='grid grid-cols-1 gap-7 py-3 px-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 container mx-auto'>
-
                         {paginateJobs.map(job => (
                             <div key={job.id} className='flex flex-col gap-4 border-2 border-green-800 rounded-md bg-green-50 px-4 py-3 hover:-translate-y-0.5 duration-75'>
                                 <h2 className='font-black text-lg'>{job.title}</h2>
@@ -65,18 +57,17 @@ const JobsPage = () => {
                             </div>
                         ))}
                     </div>
-
-                    <div className='flex justify-end mt-7'>
-                        <div className='flex items-center text-white rounded-md px-3 w-fit'>
-                            <button className='border-r border-r-white py-1 px-3 bg-green-800 hover:bg-green-900 rounded-tl-sm rounded-bl-sm cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed' disabled={page === 1} onClick={() => setPage(p => (p - 1))}>prev</button>
-                            <p className='px-2 bg-green-800 py-1'>{page}</p>
-                            <button className='border-l border-l-white py-1 px-3 hover:bg-green-900 bg-green-800 rounded-tr-sm  rounded-br-sm cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed' disabled={start + jobsPerPage >= jobs.length} onClick={() => setPage(p => (p + 1))}>next</button>
-                        </div>
+                </div>
+                <div className='flex justify-end mt-7'>
+                    <div className='flex items-center text-white rounded-md px-3 w-fit'>
+                        <button className='border-r border-r-white py-1 px-3 bg-green-800 hover:bg-green-900 rounded-tl-sm rounded-bl-sm cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed' disabled={page === 1} onClick={() => setPage(p => (p - 1))}>prev</button>
+                        <p className='px-2 bg-green-800 py-1'>{page}</p>
+                        <button className='border-l border-l-white py-1 px-3 hover:bg-green-900 bg-green-800 rounded-tr-sm  rounded-br-sm cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed' disabled={start + jobsPerPage >= jobs.length} onClick={() => setPage(p => (p + 1))}>next</button>
                     </div>
-                </main>
+                </div>
             </div>
         </div>
     )
 }
 
-export default JobsPage
+export default Jobs
