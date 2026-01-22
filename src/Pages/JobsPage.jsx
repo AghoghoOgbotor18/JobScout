@@ -4,6 +4,7 @@ import {FaBolt} from "react-icons/fa";
 import { useDebounce } from '../hooks/useDebounce';
 import Navbar from '../Layout/Navbar';
 import Hero from '../Components/Hero';
+import CTASection from '../Components/CTASection';
 
 const JobsPage = () => {
     const jobsPerPage = 10;
@@ -26,6 +27,7 @@ const JobsPage = () => {
             <div className=''>
                 <Navbar search={search} setPage={setPage} setSearch={setSearch} />
                 <Hero />
+                <CTASection search={search} setPage={setPage} setSearch={setSearch} />
 
                 {isLoading && (
                     <div className='flex items-center justify-center'>
@@ -35,7 +37,7 @@ const JobsPage = () => {
                 {!isLoading && jobs.length === 0 && debouncedSearch && (
                     <div className="flex justify-center items-center mt-40">
                         <h1 className="text-2xl font-bold">
-                        No job listing s found for
+                        No job listings found for
                         <span className="text-green-800"> "{debouncedSearch}"</span>
                         </h1>
                     </div>
