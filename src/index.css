@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+body{
+    @apply bg-linear-to-b from-green-700 via-green-500 to-green-200
+}
