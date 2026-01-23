@@ -16,11 +16,11 @@ const Home = () => {
             <header>
                 <Navbar search={search} setPage={setPage} setSearch={setSearch} />
             </header>
-            <main>
+            <main className='container mx-auto'>
                 <Hero />
                 <CTASection />
                 <Popular search={search} setPage={setPage} setSearch={setSearch} />
-                <Jobs search={search} setSearch={setPage} page={page} setPage={setPage} />
+                <Jobs search={search} page={page} setPage={setPage} />
             </main>
             <footer>
                 <Footer />

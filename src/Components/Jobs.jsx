@@ -1,16 +1,21 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef} from 'react'
 import { useJobs } from '../hooks/useJobs';
 import { useDebounce } from '../hooks/useDebounce';
 import sadFace from "../assets/sadface.png"
 
 
-const Jobs = ({search, setSearch, page, setPage}) => {
+const Jobs = ({search, page, setPage}) => {
+    const jobRef = useRef(null);
     const jobsPerPage = 10;
     const debouncedSearch = useDebounce(search, 800);
     const {data: jobs = [], isLoading, isFetching, error} = useJobs(debouncedSearch);
 
     useEffect(() => {
-        window.scrollTo(0,0);
+        if(jobRef.current){
+            jobRef.current.scrollIntoView({
+                behavior: "smooth", block: "start"
+            });
+        }
     }, [page]);
 
 
@@ -18,10 +23,11 @@ const Jobs = ({search, setSearch, page, setPage}) => {
     const paginateJobs = jobs.slice(start, start + jobsPerPage);
 
     return (
-        <div className=''>
-            <div className=''>
+        <>
                 <div>
-                    <h2 className='font-bold text-3xl ml-3 mt-10 mb-2'>Latest Projects</h2>
+                    <div ref={jobRef} className='scroll-mt-20'>
+                        <h2 className='font-bold text-3xl ml-3 mt-10 mb-2'>Latest Projects</h2>
+                    </div>
                     {isLoading && (
                         <div className='flex items-center justify-center'>
                             <p className='w-20 h-20 border-4 border-green-800 rounded-full border-t-transparent animate-spin bg-transparent text-center my-30'></p>
@@ -65,8 +71,7 @@ const Jobs = ({search, setSearch, page, setPage}) => {
                         <button className='border-l border-l-white py-1 px-3 hover:bg-green-900 bg-green-800 rounded-tr-sm  rounded-br-sm cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed' disabled={start + jobsPerPage >= jobs.length} onClick={() => setPage(p => (p + 1))}>next</button>
                     </div>
                 </div>
-            </div>
-        </div>
+        </>
     )
 }
 
