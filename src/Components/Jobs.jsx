@@ -12,6 +12,8 @@ const Jobs = ({search, page, setPage}) => {
     const {data: jobs = [], isLoading, error} = useJobs(debouncedSearch);
 
     const { savedJobs, saveJob, isSaved, removeJob } = useSavedJobs();
+    const [show, setShow] = useState(false);
+    const [toast, setToast] = useState(null);
 
     //scroll to job section when next is clicked
     useEffect(() => {
@@ -52,6 +54,16 @@ const Jobs = ({search, page, setPage}) => {
                             <p className='text-3xl font-bold'>Error loading Jobs</p>
                         </div>
                     )}
+
+                    {show && toast && (
+                        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 duration-300">
+                            <p className="bg-white shadow-md text-black text-lg rounded-md py-2 px-4">
+                                {toast.type === "saved" ? (
+                                    `removed: ${toast.jobTitle}`
+                                ) : (`saved: ${toast.jobTitle}`)}
+                            </p>
+                        </div>
+                    )}
                     
                     <div className='grid grid-cols-1 gap-7 py-3 px-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 container mx-auto'>
                         {paginateJobs.map(job => (
@@ -66,18 +78,21 @@ const Jobs = ({search, page, setPage}) => {
                                     <p className='bg-green-200 rounded-lg w-fit px-1.5 text-sm'>{job.salary}</p>
                                 </div>
                                 <button className={` ${isSaved(job.id) ? "bg-red-600 hover:bg-red-700": "bg-green-800 hover:bg-green-900"} flex items-center justify-center rounded my-2 gap-0.5 cursor-pointer text-white py-2 px-4`} onClick={() => {
-                                    isSaved(job.id) ? removeJob(job.id) : saveJob(job);
+                                    if(isSaved(job.id)){
+                                        removeJob(job.id);
+                                        setToast({type: "saved", jobTitle: job.title})
+                                    } else{
+                                        saveJob(job);
+                                        setToast({type: "removed", jobTitle: job.title});
+                                    }
+                                    setShow(true);
+                                    setTimeout(() => setShow(false), 3000);
                                 }}>
                                     {isSaved(job.id) ? "Remove" : "Save Job"}
                                 </button>
                             </div>
                         ))}
                     </div>
-                    <div className='absolute mx-auto my-5 top-5 left-[30%]'>
-                            <p className='bg-white/70 text-black text-lg rounded-md py-2 px-3'>
-                                {isSaved(job.id) ? "Job Saved" : "Job Deleted"}
-                            </p>
-                        </div>
                 </div>
                 <div className='flex justify-end mt-7'>
                     <div className='flex items-center text-white rounded-md px-3 w-fit'>
