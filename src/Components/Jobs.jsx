@@ -59,8 +59,8 @@ const Jobs = ({search, page, setPage}) => {
                         <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 duration-300">
                             <p className="bg-white shadow-md text-black text-lg rounded-md py-2 px-4">
                                 {toast.type === "saved" ? (
-                                    `removed: ${toast.jobTitle}`
-                                ) : (`saved: ${toast.jobTitle}`)}
+                                    `Removed: ${toast.jobTitle}`
+                                ) : (`Saved: ${toast.jobTitle}`)}
                             </p>
                         </div>
                     )}

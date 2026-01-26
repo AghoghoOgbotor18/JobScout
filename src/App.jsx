@@ -1,15 +1,18 @@
 import React from 'react';
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import JobsPage from "./Components/Jobs";
 import Home from './Pages/Home';
+import Layout from './Layout/Layout';
+import{ Routes, Route} from "react-router-dom";
+import SavedJobs from './Pages/SavedJobs';
 
 const App = () => {
 
-  const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
-      <Home />
-    </QueryClientProvider>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="saved" element={<SavedJobs />} />
+      </Route> 
+    </Routes>
   )
 }
 
