@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react'
 import { useJobs } from '../hooks/useJobs';
 import { useDebounce } from '../hooks/useDebounce';
-import sadFace from "../assets/sadface.png";
 import { useSavedJobs } from '../context/SavedJobsContext';
 
 
@@ -50,7 +49,7 @@ const Jobs = ({search, page, setPage}) => {
                     )}
                     {error && (
                         <div className='flex flex-col justify-center items-center gap-2'>
-                            <img src={sadFace} alt="sad emoji" className='w-50'/>
+                            <img src="/images/sadface.png" alt="sad emoji" className='w-50'/>
                             <p className='text-3xl font-bold'>Error loading Jobs</p>
                         </div>
                     )}

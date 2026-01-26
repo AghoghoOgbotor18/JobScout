@@ -28,7 +28,7 @@ const SavedJobs = () => {
             ): (
                 <div className="container mx-auto my-30 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {savedJobs.map((job) => (
-                    <div key={job.id} className='flex flex-col gap-4 border-2 border-green-800 rounded-md bg-green-50 px-4 py-3 hover:-translate-y-0.5 duration-75'>
+                    <div key={job.id} className='flex flex-col gap-4 mx-2 border-2 border-green-800 rounded-md bg-green-50 px-4 py-3 hover:-translate-y-0.5 duration-75'>
                         <h2 className='font-black text-lg'>{job.title}</h2>
                         <div className='flex flex-col gap-1'>
                             <p className='font-bold text-lg'>{job.company_name}</p>

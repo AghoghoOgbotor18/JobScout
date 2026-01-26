@@ -5,10 +5,7 @@ import CTASection from '../Components/CTASection'
 import Popular from '../Components/Popular'
 import ScrollToTop from '../Components/ScrollToTop'
 
-const Home = () => {
-
-    const [search, setSearch] = useState("");
-    const [page, setPage] = useState(1);
+const Home = ({search, setSearch, page, setPage}) => {
 
     return (
         <div className='container mx-auto'>
