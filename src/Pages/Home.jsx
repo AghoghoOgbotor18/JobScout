@@ -11,7 +11,7 @@ const Home = ({search, setSearch, page, setPage}) => {
         <div className='container mx-auto'>
             <ScrollToTop />
             <Hero />
-            <CTASection />
+            <CTASection setSearch={setSearch} setPage={setPage} />
             <Popular search={search} setPage={setPage} setSearch={setSearch} />
             <Jobs search={search} page={page} setPage={setPage} />
         </div>
