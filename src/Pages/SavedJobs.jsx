@@ -2,10 +2,17 @@ import React, {useState} from 'react';
 import { useSavedJobs } from '../context/SavedJobsContext';
 import ScrollToTop from '../Components/ScrollToTop';
 
-const SavedJobs = () => {
+const SavedJobs = ({search}) => {
     const {savedJobs, removeJob} = useSavedJobs();
     const [show, setShow] = useState(false);
     const [toast, setToast] = useState(null);
+
+    //local filter to search saved jobs
+    const filteredJobs = savedJobs.filter(job => (job.title.toLowerCase().includes(search.toLowerCase())) || (job.company_name.toLowerCase().includes(search.toLowerCase())) );
+
+    //determine display when job is searched or saved
+    const jobsToRender = search ? filteredJobs : savedJobs;
+
 
     return (
         <>
@@ -20,14 +27,21 @@ const SavedJobs = () => {
                 </div>
             )}
 
-            {savedJobs.length === 0 ? (
+            {filteredJobs.length === 0 && (
+                <div className='container mx-auto mt-32 text-center'>
+                    <h1 className='text-3xl font-bold text-black'>No job fit your description</h1>
+                    <p className='text-gray-600 mt-2'>search again using job name or company name.</p>
+                </div>
+            )}
+
+            {savedJobs.length === 0  ? (
                 <div className='container mx-auto mt-32 text-center'>
                     <h1 className='text-3xl font-bold text-black'>No saved jobs yet.</h1>
                     <p className='text-gray-600 mt-2'>Save jobs to view them here later</p>
                 </div>
             ): (
                 <div className="container mx-auto my-30 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {savedJobs.map((job) => (
+                {jobsToRender.map((job) => (
                     <div key={job.id} className='flex flex-col gap-4 mx-2 border-2 border-green-800 rounded-md bg-green-50 px-4 py-3 hover:-translate-y-0.5 duration-75'>
                         <h2 className='font-black text-lg'>{job.title}</h2>
                         <div className='flex flex-col gap-1'>

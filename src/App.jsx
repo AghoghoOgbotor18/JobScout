@@ -13,7 +13,7 @@ const App = () => {
     <Routes>
       <Route path="/" element={<Layout search={search} setSearch={setSearch} page={page} setPage={setPage} />}>
         <Route index element={<Home search={search} setSearch={setSearch} page={page} setPage={setPage} />} />
-        <Route path="saved" element={<SavedJobs />} />
+        <Route path="saved" element={<SavedJobs search={search} />} />
       </Route> 
     </Routes>
   )
