@@ -49,7 +49,7 @@ const Jobs = ({search, page, setPage}) => {
                     )}
                     {error && (
                         <div className='flex flex-col justify-center items-center gap-2'>
-                            <img src="/images/sadface.png" alt="sad emoji" className='w-50'/>
+                            <img src="/images/sadface.webp" alt="sad emoji" className='w-50'/>
                             <p className='text-3xl font-bold'>Error loading Jobs</p>
                         </div>
                     )}

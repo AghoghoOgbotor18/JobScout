@@ -8,7 +8,7 @@ const Hero = () => {
                 <p>Built for Job Seekers. Trusted by career builders and employers. Get accurate job matches, learning pathways and career advice for free.</p>
             </div>
             <div className='flex gap-3 lg:w-[80%]'>
-                <img src="images/heroImage.png" alt="happy people" className='' />
+                <img src="/images/heroImage.webp" alt="happy people" className='' />
             </div>
         </div>
     )
