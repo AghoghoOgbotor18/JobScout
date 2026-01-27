@@ -39,8 +39,9 @@ const Navbar = ({ search, setSearch, setPage }) => {
 
       {/* Mobile view */}
       {isOpen && (
-        <div className='md:hidden bg-white fixed top-16 left-0 right-0 z-40 duration-300 shadow-md'>
-          <div className=" flex flex-col items-center justify-center gap-4 p-6 space-y-4">
+        <div className='md:hidden bg-white fixed top-16 left-0 right-0 z-40 transition-all duration-500 shadow-md'>
+          <div className='absolute inset-0 h-screen bg-black/60  -z-50 backdrop-blur-lg'></div>
+          <div className=" flex flex-col bg-white items-center justify-center gap-4 p-6 space-y-4">
             <NavLink to="/" className={({isActive}) => isActive ? "text-green-800" : "text-black/80"} onClick={() => setIsOpen(false)}>Home</NavLink>
             <NavLink to="/saved" className={({isActive}) => isActive ? "text-green-800" : "text-black/70"} onClick={() => setIsOpen(false)}>Saved Jobs</NavLink>
             <input type='search' value={search} placeholder="search jobs" onChange={(e) => {setSearch(e.target.value); setPage(1);}}  className='border-2 border-green-800 bg-green-50 p-2 rounded-md text-black/60 outline-none'/>
